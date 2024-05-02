@@ -49,8 +49,12 @@ async function 增加或更新dns记录(
   }
 
   if (目标.id == null) throw new Error('无法获得需要的信息')
+  if (目标.content == ip地址) {
+    console.log('找到域名%O对应的记录, 发现ip没有变化, 什么都不做', 域名)
+    return
+  }
 
-  console.log('找到域名%O对应的记录, 将修改该记录', 域名)
+  console.log('找到域名%O对应的记录, 发现ip有变化, 将修改该记录', 域名)
   await cf句柄.dns.records.edit(目标.id, {
     zone_id: 区域id,
     content: ip地址,
