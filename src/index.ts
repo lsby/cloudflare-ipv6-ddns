@@ -24,7 +24,7 @@ async function 增加或更新dns记录(
   ip地址: string,
   类型: 'A' | 'AAAA',
   使用代理: boolean = false,
-  ttl: number = 3600,
+  ttl: number = 1,
 ): Promise<void> {
   console.log('开始增加或修改dns记录...')
 
