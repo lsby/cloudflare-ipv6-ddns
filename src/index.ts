@@ -55,7 +55,8 @@ async function 增加或更新dns记录(
     zone_id: 区域id,
     content: ip地址,
     name: 域名,
-    proxied: 目标.proxiable || 使用代理,
+    // 截至 2024年5月2日, 接口实际返回的值包括proxiable和proxied, proxiable总为true, 所以这里使用proxied.
+    proxied: (目标 as any).proxied == null ? 使用代理 : (目标 as any).proxied,
     type: 类型,
     comment: 目标.comment || '',
     ttl: 目标.ttl || ttl,
