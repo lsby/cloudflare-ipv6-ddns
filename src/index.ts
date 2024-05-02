@@ -63,14 +63,6 @@ async function 增加或更新dns记录(
   })
   console.log('修改记录成功')
 }
-async function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
-async function 执行DDNS(cloudflare: Cloudflare, 区域id: string, 域名: string): Promise<void> {
-  const ipv6地址 = await 获取IPv6地址()
-  await 增加或更新dns记录(cloudflare, 区域id, 域名, ipv6地址, 'AAAA')
-}
 
 async function main(): Promise<void> {
   console.log('开始运行...')
@@ -80,31 +72,16 @@ async function main(): Promise<void> {
   const 令牌 = process.env['CLOUDFLARE_API_TOKEN']
   const 区域id = process.env['CLOUDFLARE_ZONE_ID']
   const 域名 = process.env['DOMAIN']
-  const 刷新时间字符串 = process.env['UPDATE_TIME']
 
-  if (!令牌 || !区域id || !域名 || !刷新时间字符串) {
+  if (!令牌 || !区域id || !域名) {
     console.log('未提供必要的环境变量：CLOUDFLARE_API_TOKEN, CLOUDFLARE_ZONE_ID, DOMAIN, UPDATE_TIME')
-    process.exit(1)
-  }
-  const 刷新时间 = parseInt(刷新时间字符串)
-  if (isNaN(刷新时间)) {
-    console.log('无法解析UPDATE_TIME')
     process.exit(1)
   }
 
   const cloudflare = new Cloudflare({ apiToken: 令牌 })
 
-  while (1) {
-    console.log('=================== 执行DDNS ===================')
-    await 执行DDNS(cloudflare, 区域id, 域名)
-    console.log('执行完成, 将在%O秒后重新执行', 刷新时间 / 1000)
-    await sleep(刷新时间)
-  }
+  const ipv6地址 = await 获取IPv6地址()
+  await 增加或更新dns记录(cloudflare, 区域id, 域名, ipv6地址, 'AAAA')
 }
-while (1) {
-  try {
-    await main()
-  } catch (e) {
-    console.log(e)
-  }
-}
+
+await main().catch(console.log)
