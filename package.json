@@ -5,6 +5,9 @@
   "bin": {
     "lsby-cloudflare-ipv6-ddns": "dist/index.js"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build:all": "tsc",
     "other:clean": "rm -rf .parcel-cache dist",
