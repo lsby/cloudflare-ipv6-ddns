@@ -79,7 +79,7 @@ async function main(): Promise<void> {
   const 域名 = process.env['DOMAIN']
 
   if (!令牌 || !区域id || !域名) {
-    console.log('未提供必要的环境变量：CLOUDFLARE_API_TOKEN, CLOUDFLARE_ZONE_ID, DOMAIN, UPDATE_TIME')
+    console.log('未提供必要的环境变量：CLOUDFLARE_API_TOKEN, CLOUDFLARE_ZONE_ID, DOMAIN')
     process.exit(1)
   }
 
