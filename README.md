@@ -8,7 +8,13 @@
 npm i -g @lsby/cloudflare-ipv6-ddns
 ```
 
-## 用法
+## 使用
+
+在命令行执行以下命令, windows和linux略有不同.
+
+- 设置环境变量的写法不同, windows是`set`, linux是`export`.
+
+下面的示例使用windows的写法:
 
 ```
 export CLOUDFLARE_API_TOKEN=<你的token>
