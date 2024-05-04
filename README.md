@@ -19,7 +19,7 @@ npm i -g @lsby/cloudflare-ipv6-ddns
 ```
 set CLOUDFLARE_API_TOKEN=<cloudflare的token>
 set CLOUDFLARE_ZONE_ID=<cloudflare域名的区域id>
-export DOMAIN=<要设置ddns的完整域名>
+set DOMAIN=<要设置ddns的完整域名>
 
 lsby-cloudflare-ipv6-ddns
 ```
