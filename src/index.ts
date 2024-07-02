@@ -27,6 +27,7 @@ async function 增加或更新dns记录(
   ttl: number = 1,
 ): Promise<void> {
   console.log('开始增加或修改dns记录...')
+  console.log('传入信息: %o', { 区域id, 域名, ip地址, 类型, 使用代理, ttl })
 
   console.log('查询dns记录列表...')
   const 列表 = await cf句柄.dns.records.list({ zone_id: 区域id })
@@ -82,6 +83,8 @@ async function main(): Promise<void> {
     console.log('未提供必要的环境变量：CLOUDFLARE_API_TOKEN, CLOUDFLARE_ZONE_ID, DOMAIN')
     process.exit(1)
   }
+
+  console.log('传入信息: 区域id: %o, 域名: %o', 区域id, 域名)
 
   const cloudflare = new Cloudflare({ apiToken: 令牌 })
 
