@@ -37,6 +37,9 @@ async function 增加或更新dns记录(
     console.log('没有找到域名%O对应的记录, 将新增该记录...', 域名)
     await cf句柄.dns.records.create({
       zone_id: 区域id,
+      // 2024年7月3日 发现参数名称改成了body_zone_id
+      // @ts-ignore
+      body_zone_id: 区域id as any,
       content: ip地址,
       name: 域名,
       proxied: 使用代理,
@@ -58,6 +61,9 @@ async function 增加或更新dns记录(
   console.log('找到域名%O对应的记录, 发现ip有变化, 将修改该记录', 域名)
   await cf句柄.dns.records.edit(目标.id, {
     zone_id: 区域id,
+    // 2024年7月3日 发现参数名称改成了body_zone_id
+    // @ts-ignore
+    body_zone_id: 区域id,
     content: ip地址,
     name: 域名,
     // 截至 2024年5月2日, 接口实际返回的值包括proxiable和proxied, proxiable总为true, 所以这里使用proxied.
