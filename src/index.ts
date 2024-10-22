@@ -102,4 +102,4 @@ async function main(): Promise<void> {
   await 增加或更新dns记录(cloudflare, 区域id, 域名, ipv6地址, 'AAAA')
 }
 
-// await main().catch(console.log)
+await main().catch(console.log)
