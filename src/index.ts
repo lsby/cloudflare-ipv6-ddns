@@ -9,12 +9,12 @@ async function 获取IPv6地址(): Promise<string> {
 
   try {
     console.log('使用 test.ipw.cn')
-    const 响应 = await axios请求<{ IP: string; IPVersion: string }>({
+    const 响应 = await axios请求<{ myip: string }>({
       method: 'GET',
-      url: 'https://test.ipw.cn/api/ip/myip?json',
+      url: 'https://v6.ip.zxinc.org/info.php?type=json',
     })
-    if (响应.IPVersion == 'IPv6') console.log('成功获取本机ipv6地址: %O', 响应.IPVersion)
-    return 响应.IP
+    console.log('成功获取本机ipv6地址: %O', 响应.myip)
+    return 响应.myip
   } catch (网络错误) {
     console.log(网络错误)
   }
