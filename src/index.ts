@@ -2,20 +2,19 @@
 import { execSync } from 'child_process'
 import Cloudflare from 'cloudflare'
 import dotenv from 'dotenv'
-import { axios请求 } from './tools/axios.js'
 
 async function 获取IPv6地址(): Promise<string> {
   console.log('开始获取本机ipv6地址...')
 
-  try {
-    const 响应 = await axios请求<{ ip: string }>({ method: 'GET', url: 'https://api6.ipify.org/?format=json' })
-    console.log('成功获取本机ipv6地址: %O', 响应.ip)
-    return 响应.ip
-  } catch (网络错误) {
-    console.log(网络错误)
-  }
+  // try {
+  //   const 响应 = await axios请求<{ ip: string }>({ method: 'GET', url: 'https://api6.ipify.org/?format=json' })
+  //   console.log('成功获取本机ipv6地址: %O', 响应.ip)
+  //   return 响应.ip
+  // } catch (网络错误) {
+  //   console.log(网络错误)
+  // }
 
-  console.log('无法通过网络获取ipv6地址，尝试调用系统接口...')
+  // console.log('无法通过网络获取ipv6地址，尝试调用系统接口...')
   const 结果 = execSync("ip -6 addr show | grep inet6 | awk '{print $2}' | cut -d/ -f1 | grep -v '::1' | head -n 1")
     .toString()
     .trim()
