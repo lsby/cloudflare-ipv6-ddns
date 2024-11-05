@@ -2,39 +2,55 @@
 import { execSync } from 'child_process'
 import Cloudflare from 'cloudflare'
 import dotenv from 'dotenv'
+import { z } from 'zod'
 import { axios请求 } from './tools/axios.js'
 
 async function 获取IPv6地址(): Promise<string> {
   console.log('开始获取本机ipv6地址...')
 
   try {
-    console.log('使用 test.ipw.cn')
-    const 响应 = await axios请求<{ myip: string }>({
+    console.log('使用 v6.ip.zxinc.org')
+    let 响应 = await axios请求({
       method: 'GET',
       url: 'https://v6.ip.zxinc.org/info.php?type=json',
     })
-    console.log('成功获取本机ipv6地址: %O', 响应.myip)
+    let 结果 = z.object({ code: z.literal(0), data: z.object({ myip: z.string() }) }).parse(响应)
+    console.log('成功获取本机ipv6地址: %O', 结果.data.myip)
     return 响应.myip
-  } catch (网络错误) {
-    console.log(网络错误)
+  } catch (错误) {
+    console.log(错误)
+  }
+
+  try {
+    console.log('使用 v6.ident.me')
+    let 响应 = await axios请求({ method: 'GET', url: 'https://v6.ident.me/json' })
+    let 结果 = z.object({ ip: z.string() }).parse(响应)
+    console.log('成功获取本机ipv6地址: %O', 结果.ip)
+    return 结果.ip
+  } catch (错误) {
+    console.log(错误)
   }
 
   try {
     console.log('使用 api6.ipify.org')
-    const 响应 = await axios请求<{ ip: string }>({ method: 'GET', url: 'https://api6.ipify.org/?format=json' })
-    console.log('成功获取本机ipv6地址: %O', 响应.ip)
-    return 响应.ip
-  } catch (网络错误) {
-    console.log(网络错误)
+    let 响应 = await axios请求({ method: 'GET', url: 'https://api6.ipify.org/?format=json' })
+    let 结果 = z.object({ ip: z.string() }).parse(响应)
+    console.log('成功获取本机ipv6地址: %O', 结果.ip)
+    return 结果.ip
+  } catch (错误) {
+    console.log(错误)
   }
 
-  console.log('无法通过网络获取ipv6地址，尝试调用系统接口...')
-  const 结果 = execSync("ip -6 addr show | grep inet6 | awk '{print $2}' | cut -d/ -f1 | grep -v '::1' | head -n 1")
-    .toString()
-    .trim()
-  if (结果) {
+  try {
+    console.log('调用系统接口...')
+    let 结果 = execSync("ip -6 addr show | grep inet6 | awk '{print $2}' | cut -d/ -f1 | grep -v '::1' | head -n 1")
+      .toString()
+      .trim()
+    if (!结果) throw new Error('使用系统接口获取ipv6地址失败')
     console.log('成功获取本机ipv6地址: %O', 结果)
     return 结果
+  } catch (错误) {
+    console.log(错误)
   }
 
   throw new Error('无法获得ipv6地址')
@@ -53,9 +69,9 @@ async function 增加或更新dns记录(
   console.log('传入信息: %o', { 区域id, 域名, ip地址, 类型, 使用代理, ttl })
 
   console.log('查询dns记录列表...')
-  const 列表 = await cf句柄.dns.records.list({ zone_id: 区域id })
+  let 列表 = await cf句柄.dns.records.list({ zone_id: 区域id })
 
-  var 目标 = 列表.result.filter((a) => a.name == 域名)[0]
+  let 目标 = 列表.result.filter((a) => a.name == 域名)[0]
   if (目标 == null) {
     console.log('没有找到域名%O对应的记录, 将新增该记录...', 域名)
     await cf句柄.dns.records.create({
@@ -98,9 +114,9 @@ async function main(): Promise<void> {
 
   dotenv.config()
 
-  const 令牌 = process.env['CLOUDFLARE_API_TOKEN']
-  const 区域id = process.env['CLOUDFLARE_ZONE_ID']
-  const 域名 = process.env['DOMAIN']
+  let 令牌 = process.env['CLOUDFLARE_API_TOKEN']
+  let 区域id = process.env['CLOUDFLARE_ZONE_ID']
+  let 域名 = process.env['DOMAIN']
 
   if (!令牌 || !区域id || !域名) {
     console.log('未提供必要的环境变量：CLOUDFLARE_API_TOKEN, CLOUDFLARE_ZONE_ID, DOMAIN')
@@ -109,9 +125,9 @@ async function main(): Promise<void> {
 
   console.log('传入信息: 区域id: %o, 域名: %o', 区域id, 域名)
 
-  const cloudflare = new Cloudflare({ apiToken: 令牌 })
+  let cloudflare = new Cloudflare({ apiToken: 令牌 })
 
-  const ipv6地址 = await 获取IPv6地址()
+  let ipv6地址 = await 获取IPv6地址()
   await 增加或更新dns记录(cloudflare, 区域id, 域名, ipv6地址, 'AAAA')
 }
 
