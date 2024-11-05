@@ -95,7 +95,7 @@ async function 增加或更新dns记录(
   }
 
   console.log('找到域名%O对应的记录, 发现ip有变化, 将修改该记录', 域名)
-  await cf句柄.dns.records.edit(目标.id, {
+  var 修改结果 = await cf句柄.dns.records.edit(目标.id, {
     zone_id: 区域id,
     content: ip地址,
     name: 域名,
@@ -106,7 +106,7 @@ async function 增加或更新dns记录(
     ttl: 目标.ttl || ttl,
     tags: 目标.tags || [],
   })
-  console.log('修改记录成功')
+  console.log('修改记录结果', 修改结果)
 }
 
 async function main(): Promise<void> {
