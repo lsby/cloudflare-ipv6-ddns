@@ -16,7 +16,7 @@ async function 获取IPv6地址(): Promise<string> {
     })
     let 结果 = z.object({ code: z.literal(0), data: z.object({ myip: z.string() }) }).parse(响应)
     console.log('成功获取本机ipv6地址: %O', 结果.data.myip)
-    return 响应.myip
+    return 结果.data.myip
   } catch (错误) {
     console.log(错误)
   }
