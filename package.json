@@ -1,6 +1,6 @@
 {
   "name": "@lsby/cloudflare-ipv6-ddns",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "type": "module",
   "bin": {
     "lsby-cloudflare-ipv6-ddns": "dist/index.js"
