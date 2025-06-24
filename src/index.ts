@@ -21,25 +21,25 @@ async function 获取IPv6地址(): Promise<string> {
     console.log(错误)
   }
 
-  try {
-    console.log('使用 v6.ident.me')
-    let 响应 = await axios请求({ method: 'GET', url: 'https://v6.ident.me/json' })
-    let 结果 = z.object({ ip: z.string() }).parse(响应)
-    console.log('成功获取本机ipv6地址: %O', 结果.ip)
-    return 结果.ip
-  } catch (错误) {
-    console.log(错误)
-  }
+  // try {
+  //   console.log('使用 v6.ident.me')
+  //   let 响应 = await axios请求({ method: 'GET', url: 'https://v6.ident.me/json' })
+  //   let 结果 = z.object({ ip: z.string() }).parse(响应)
+  //   console.log('成功获取本机ipv6地址: %O', 结果.ip)
+  //   return 结果.ip
+  // } catch (错误) {
+  //   console.log(错误)
+  // }
 
-  try {
-    console.log('使用 api6.ipify.org')
-    let 响应 = await axios请求({ method: 'GET', url: 'https://api6.ipify.org/?format=json' })
-    let 结果 = z.object({ ip: z.string() }).parse(响应)
-    console.log('成功获取本机ipv6地址: %O', 结果.ip)
-    return 结果.ip
-  } catch (错误) {
-    console.log(错误)
-  }
+  // try {
+  //   console.log('使用 api6.ipify.org')
+  //   let 响应 = await axios请求({ method: 'GET', url: 'https://api6.ipify.org/?format=json' })
+  //   let 结果 = z.object({ ip: z.string() }).parse(响应)
+  //   console.log('成功获取本机ipv6地址: %O', 结果.ip)
+  //   return 结果.ip
+  // } catch (错误) {
+  //   console.log(错误)
+  // }
 
   try {
     console.log('调用系统接口...')
